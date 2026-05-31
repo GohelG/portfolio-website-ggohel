@@ -1,0 +1,270 @@
+/* Import Google Fonts used by high-profile luxury houses */
+@import url('googleapis.com');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Elite, ultra-thin luxury scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #fcfbfa; /* Pure Alabaster */
+}
+::-webkit-scrollbar-thumb {
+    background: #1e3a8a; /* Royal Sapphire Blue */
+    border-radius: 0px;
+}
+
+body {
+    /* Clean, widely-spaced geometric font for premium tech-minimalism readability */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: 1.8;
+    background: #fdfdfd; /* Bright luxury gallery background */
+    color: #334155; /* Refined dark slate for premium reading comfort */
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* High-profile luxury serif formatting for elite editorial headings */
+h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #1e3a8a; /* Sharp Royal Sapphire Blue */
+    line-height: 1.2;
+}
+
+.container {
+    width: 88%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    background: #0b132b; /* Deep Royal Midnight Navy background */
+    color: #ffffff;      /* Pure white text for strong contrast */
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 2px solid #d4af37; /* Royal Metallic Gold Accent separator line */
+}
+
+/* Ensures the user's name stands out on the dark header */
+header h1 {
+    color: #ffffff;
+    font-size: 2.5rem;
+}
+
+header nav {
+    margin-top: 25px;
+}
+
+header nav a {
+    color: #cbd5e1; /* Soft platinum gray navigation links */
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase; /* Clean luxury aesthetic */
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 6px;
+    transition: color 0.4s ease;
+}
+
+/* Minimalist hairline accent animation on link hover */
+header nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #d4af37; /* Royal Metallic Gold Accent */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-50%);
+}
+
+header nav a:hover {
+    color: #ffffff; /* Turns bright white on hover */
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+.hero {
+    /* Prestigious Light Royal Blue to Soft Slate gradient */
+    background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+    color: #1e3a8a; /* Kept dark blue for crystal clear readability */
+    padding: 140px 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Subtle gold horizontal bar element under the Hero header section */
+.hero::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #d4af37; /* Gold divider accent */
+    margin: 30px auto 0 auto;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    border: 2px solid #d4af37; /* Thin gold outline frame */
+    box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-img:hover {
+    transform: scale(1.03);
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 30px;
+    background: #1e3a8a; /* Solid Royal Blue fill for prominent contrast */
+    color: #ffffff; 
+    padding: 14px 36px;
+    text-decoration: none;
+    border: 1px solid #1e3a8a;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 15px rgba(30, 58, 138, 0.15);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Inverted gold-bordered premium look when hovering buttons */
+.btn:hover {
+    background: transparent;
+    color: #1e3a8a;
+    border-color: #d4af37;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
+.section {
+    padding: 100px 0; /* Breathable spacing characteristic of premium layouts */
+}
+
+.dark {
+    background: #f8fafc; /* Crisp French platinum grey block differentiation */
+    color: #1e3a8a;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.card {
+    background: #ffffff; 
+    color: #334155; 
+    padding: 40px 25px;
+    text-align: center;
+    border: 1px solid #e2e8f0; /* Razor sharp clean structure line */
+    border-radius: 4px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Minimalist luxury transition - border shifts to gold on hover */
+.card:hover {
+    border-color: #d4af37;
+    background: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.04);
+}
+
+.timeline-item {
+    margin-bottom: 50px;
+    position: relative;
+    padding-left: 35px;
+    border-left: 1px solid #e2e8f0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    background: #d4af37; /* Golden marker point */
+}
+
+/* .project-card {
+    background: #ffffff; 
+    color: #334155; 
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+} */
+
+.project-card-content {
+    padding: 35px; /* Spacious layout for project content text */
+}
+
+/* .project-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: none;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+} */
+
+/* Micro-interaction layout animations for project cards */
+/* .project-card:hover {
+    border-color: #d4af37;
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.05);
+    transform: translateY(-6px);
+}
+
+.project-card:hover img {
+    transform: scale(1.02);
+} */
+
+footer {
+    background: #0b132b; /* Matching Deep Royal Midnight Navy footer background */
+    color: #94a3b8;    /* Muted silvery slate text for professional legibility */
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-top: 2px solid #d4af37; /* Gold accent frame line on top of footer */
+}
+
+/* Fixes contrast alignment on the dark navigation header background */
+.header-subtitle {
+    color: #cbd5e1; /* Clear metallic slate gray text */
+    font-size: 0.95rem;
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+/* Fixes description contrast inside the light royal blue hero block */
+.hero-subtitle {
+    color: #475569; /* Deep clear slate text */
+    max-width: 700px;
+    margin: 20px auto 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
