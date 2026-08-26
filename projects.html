@@ -6,70 +6,98 @@
     <title>Projects | Gautam Gohel</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header>
-    <div class="container">
-        <h1>Projects</h1>
+<div id="boot-overlay">
+    <div class="boot-line">[ OPS-CONSOLE ] booting interface<span class="ok">OK</span></div>
+    <div class="boot-line" style="animation-delay:.15s">[ AUTH ] verifying multi-cloud credentials<span class="ok">OK</span></div>
+    <div class="boot-line" style="animation-delay:.3s">[ LINK ] establishing telemetry uplink<span class="ok">OK</span></div>
+    <div class="boot-line" style="animation-delay:.45s">[ READY ] loading gautam gohel // ops profile</div>
+    <div class="boot-bar"><div class="boot-bar-fill"></div></div>
+</div>
 
-        <nav>
+<header class="site-header">
+    <div class="container header-bar">
+        <div class="brand"><span class="dot">●</span> GGOHEL <small>/ ops console</small></div>
+        <nav class="main-nav">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="projects.html">Projects</a>
             <a href="contact.html">Contact</a>
         </nav>
+        <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
 </header>
+<div class="marquee-band">
+    <div class="marquee-track">
+        <span>GAUTAM GOHEL <i>&#10022;</i> CLOUD OPERATIONS <i>&#10022;</i> AWS &middot; AZURE &middot; GCP <i>&#10022;</i> OBSERVABILITY <i>&#10022;</i> INCIDENT RESPONSE <i>&#10022;</i> 11+ YEARS IN OPS <i>&#10022;</i></span>
+        <span>GAUTAM GOHEL <i>&#10022;</i> CLOUD OPERATIONS <i>&#10022;</i> AWS &middot; AZURE &middot; GCP <i>&#10022;</i> OBSERVABILITY <i>&#10022;</i> INCIDENT RESPONSE <i>&#10022;</i> 11+ YEARS IN OPS <i>&#10022;</i></span>
+    </div>
+</div>
+<nav class="side-dots" aria-label="Section navigation">
+    <a href="index.html"><span class="dot-label">Home</span><span class="dot-mark"></span></a>
+    <a href="about.html"><span class="dot-label">About</span><span class="dot-mark"></span></a>
+    <a href="projects.html" class="active"><span class="dot-label">Projects</span><span class="dot-mark"></span></a>
+    <a href="contact.html"><span class="dot-label">Contact</span><span class="dot-mark"></span></a>
+</nav>
 
-<section class="section dark">
 
+<div class="page-title-bar">
     <div class="container">
+        <div class="eyebrow">deployments</div>
+        <h1 class="glitch" data-text="Projects">Projects</h1>
+    </div>
+</div>
 
-        <h2>Projects</h2>
+<section class="section">
+    <div class="container tilt-stage">
 
-        <div class="project-card">
-
-            <img src="assets/images/project1.png" alt="Project Image">
-
-            <h3>Hosting a static HTTPS website using AWS services</h3>
-            <p>
-            <i>What the project is about</i>:
-             <ul>The objective of this project is to implement a highly available static website hosting solution using AWS.</ul> 
-             <ul>Required AWS services include:</ul>
-            <ul>
-            <li>S3 Buckets to host website pages</li>
-            <li>Route 53 to link the domain name to the website</li>
-            <li>AWS Certificate Manager (ACM) to create an SSL certificate</li>
-            <li>CloudFront distributions to secure the website in HTTPS</li>
-            </ul>
-            <b><i>Note: The approx. annual budget of this project is less than $20.</i></b>   
-            </p>
-
+        <div class="tilt-card project-card">
+            <div class="index">01</div>
+            <div>
+                <h3>Hosting a Static HTTPS Website Using AWS Services</h3>
+                <p class="desc">
+                    Implements a highly available static website hosting solution on AWS, secured
+                    end-to-end over HTTPS.
+                </p>
+                <ul>
+                    <li>S3 buckets to host website pages</li>
+                    <li>Route 53 to link the domain name to the website</li>
+                    <li>AWS Certificate Manager (ACM) to issue an SSL certificate</li>
+                    <li>CloudFront distribution to serve the site over HTTPS</li>
+                </ul>
+                <div class="budget-badge">Annual budget: &lt; $20</div>
+                <div class="tags-row">
+                    <span>S3</span><span>Route 53</span><span>ACM</span><span>CloudFront</span>
+                </div>
+            </div>
         </div>
 
-        <br>
-
-        <div class="project-card">
-
-            <img src="assets/images/project2.png" alt="Project Image">
-
-            <h3>CI/CD Deployment Pipeline</h3>
-
-            <p>
-                Automated application deployment using
-                GitHub Actions, AWS EC2, SSH, and Nginx.
-            </p>
-
+        <div class="tilt-card project-card">
+            <div class="index">02</div>
+            <div>
+                <h3>CI/CD Deployment Pipeline</h3>
+                <p class="desc">
+                    Automated application deployment using GitHub Actions, AWS EC2, SSH, and Nginx —
+                    pushing code straight from repository to production server on every merge.
+                </p>
+                <div class="tags-row">
+                    <span>GitHub Actions</span><span>AWS EC2</span><span>SSH</span><span>Nginx</span>
+                </div>
+            </div>
         </div>
 
     </div>
-
 </section>
 
-<footer>
-    <p>© 2026 Gautam Gohel | Portfolio Website</p>
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 Gautam Gohel — Portfolio Website</p>
+        <p>Ahmedabad, India</p>
+    </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
