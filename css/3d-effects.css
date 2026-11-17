@@ -1,0 +1,57 @@
+
+/* 3D Portfolio Enhancement */
+
+:root {
+  --glow-cyan: #00d9ff;
+  --glow-blue: #4776ff;
+}
+
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  will-change: transform;
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.card-3d:hover {
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.35),
+    0 0 25px rgba(0, 217, 255, 0.16);
+}
+
+.card-3d > * {
+  position: relative;
+  transform: translateZ(16px);
+}
+
+.reveal-3d {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal-3d.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-3d,
+  .card-3d > *,
+  .reveal-3d {
+    transition: none;
+    transform: none !important;
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .card-3d {
+    transform: none !important;
+  }
+}
