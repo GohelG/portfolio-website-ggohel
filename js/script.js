@@ -1,3 +1,4 @@
+
 /* ============================================================
    Gautam Gohel — Portfolio interactions
    ============================================================ */
@@ -92,37 +93,45 @@ function initGlitchBursts() {
       el.classList.add('glitch-burst');
       window.setTimeout(() => el.classList.remove('glitch-burst'), 420);
     };
-    // one soft burst shortly after load, then occasional re-triggers
     window.setTimeout(fire, 1800);
     window.setInterval(fire, 7000 + Math.random() * 4000);
   });
 }
 
-/* ---------------- Nav ---------------- */
+/* ---------------- Navigation ---------------- */
 
 function initNav() {
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.main-nav');
+
   if (toggle && nav) {
-    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
   }
 
   const path = location.pathname.split('/').pop() || 'index.html';
+
   document.querySelectorAll('.main-nav a').forEach(a => {
     const href = a.getAttribute('href');
     if (href === path) a.classList.add('active');
   });
+
   document.querySelectorAll('.side-dots a').forEach(a => {
     const href = a.getAttribute('href');
     a.classList.toggle('active', href === path);
   });
 }
 
-/* ---------------- 3D tilt cards ---------------- */
+/* ---------------- 3D Tilt Cards ---------------- */
 
 function initTiltCards() {
   const cards = document.querySelectorAll('.tilt-card');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
   if (reduceMotion) return;
 
   cards.forEach(card => {
@@ -132,15 +141,20 @@ function initTiltCards() {
       bounds = card.getBoundingClientRect();
     });
 
-    card.addEventListener('mousemove', (e) => {
+    card.addEventListener('mousemove', e => {
       if (!bounds) bounds = card.getBoundingClientRect();
+
       const x = e.clientX - bounds.left;
       const y = e.clientY - bounds.top;
-      const px = (x / bounds.width) - 0.5;
-      const py = (y / bounds.height) - 0.5;
+
+      const px = x / bounds.width - 0.5;
+      const py = y / bounds.height - 0.5;
+
       const rotateX = (py * -8).toFixed(2);
       const rotateY = (px * 10).toFixed(2);
-      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+
+      card.style.transform =
+        `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
     });
 
     card.addEventListener('mouseleave', () => {
@@ -149,172 +163,284 @@ function initTiltCards() {
   });
 }
 
-/* ---------------- Hero 3D scene: multi-cloud network ---------------- */
+/* ---------------- Cinematic 3D Cloud Scene ---------------- */
 
 function initHeroScene() {
   const mount = document.getElementById('hero-scene');
+
   if (!mount || typeof THREE === 'undefined') return;
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
 
-  const width = mount.clientWidth;
-  const height = mount.clientHeight;
+  const width = Math.max(mount.clientWidth, 1);
+  const height = Math.max(mount.clientHeight, 1);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(48, width / height, 0.1, 100);
-  camera.position.set(0, 0, 7.2);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    width / height,
+    0.1,
+    100
+  );
+
+  camera.position.set(0, 1.2, 10);
+
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+  });
+
+  renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio || 1, 2)
+  );
+
   renderer.setSize(width, height);
   mount.appendChild(renderer.domElement);
 
-  const group = new THREE.Group();
-  scene.add(group);
+  const cloudGroup = new THREE.Group();
+  scene.add(cloudGroup);
 
-  // Wireframe sphere = the "cloud" the nodes orbit within
-  const sphereGeo = new THREE.SphereGeometry(2.5, 24, 18);
-  const sphereMat = new THREE.MeshBasicMaterial({
-    color: 0x223049,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.55
-  });
-  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-  group.add(sphere);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-  // Tilted orbit rings — sci-fi HUD / targeting-array feel
-  const ringSpecs = [
-    { radius: 3.15, color: 0xff8a3d, tiltX: 1.15, tiltZ: 0.15, opacity: 0.5 },
-    { radius: 3.55, color: 0x4cd3c2, tiltX: 0.35, tiltZ: -0.4, opacity: 0.32 },
-    { radius: 3.9, color: 0x4cd3c2, tiltX: -0.5, tiltZ: 0.6, opacity: 0.18 }
-  ];
-  const rings = ringSpecs.map(spec => {
-    const ringGeo = new THREE.RingGeometry(spec.radius, spec.radius + 0.012, 96);
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: spec.color,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: spec.opacity
-    });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.rotation.x = spec.tiltX;
-    ring.rotation.z = spec.tiltZ;
-    group.add(ring);
-    return ring;
-  });
+  const light = new THREE.PointLight(0x4cd3c2, 3, 20);
+  light.position.set(0, 3, 5);
+  scene.add(light);
 
-  // Provider nodes: AWS / Azure / GCP + observability tool satellites
-  const providerColor = 0xff8a3d;
-  const toolColor = 0x4cd3c2;
+  const core = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.7, 2),
+    new THREE.MeshPhongMaterial({
+      color: 0x4cd3c2,
+      emissive: 0x12665e,
+      shininess: 100,
+      flatShading: true
+    })
+  );
 
-  function latLonToVec3(lat, lon, r) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-    return new THREE.Vector3(
-      -r * Math.sin(phi) * Math.cos(theta),
-      r * Math.cos(phi),
-      r * Math.sin(phi) * Math.sin(theta)
+  core.position.y = 0.3;
+  cloudGroup.add(core);
+
+  const racks = [];
+
+  function createServerRack(x, color) {
+    const rack = new THREE.Group();
+
+    const cabinet = new THREE.Mesh(
+      new THREE.BoxGeometry(1.1, 2.2, 0.8),
+      new THREE.MeshPhongMaterial({
+        color: 0x172333,
+        specular: 0x445566
+      })
     );
-  }
 
-  const providerNodes = [
-    latLonToVec3(35, -20, 2.5),
-    latLonToVec3(-15, 90, 2.5),
-    latLonToVec3(10, 200, 2.5)
-  ];
+    rack.add(cabinet);
 
-  const toolNodes = [
-    latLonToVec3(60, 40, 2.5),
-    latLonToVec3(-45, 140, 2.5),
-    latLonToVec3(5, -110, 2.5),
-    latLonToVec3(-60, -60, 2.5),
-    latLonToVec3(70, -150, 2.5)
-  ];
+    for (let i = 0; i < 6; i++) {
+      const server = new THREE.Mesh(
+        new THREE.BoxGeometry(0.92, 0.22, 0.84),
+        new THREE.MeshPhongMaterial({
+          color: 0x25364b
+        })
+      );
 
-  function addNode(pos, color, size) {
-    const geo = new THREE.SphereGeometry(size, 12, 12);
-    const mat = new THREE.MeshBasicMaterial({ color });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.copy(pos);
-    group.add(mesh);
+      server.position.y = -0.83 + i * 0.33;
+      rack.add(server);
 
-    const glowGeo = new THREE.SphereGeometry(size * 2.2, 12, 12);
-    const glowMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.15 });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    glow.position.copy(pos);
-    group.add(glow);
-  }
+      const led = new THREE.Mesh(
+        new THREE.SphereGeometry(0.035, 8, 8),
+        new THREE.MeshBasicMaterial({ color })
+      );
 
-  providerNodes.forEach(p => addNode(p, providerColor, 0.09));
-  toolNodes.forEach(p => addNode(p, toolColor, 0.055));
+      led.position.set(
+        0.34,
+        server.position.y,
+        0.45
+      );
 
-  // Connection arcs between provider nodes (triangle) and to tool satellites
-  function makeArc(a, b, color, opacity) {
-    const mid = a.clone().add(b).multiplyScalar(0.5).normalize().multiplyScalar(3.05);
-    const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-    const points = curve.getPoints(40);
-    const geo = new THREE.BufferGeometry().setFromPoints(points);
-    const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
-    return new THREE.Line(geo, mat);
-  }
-
-  for (let i = 0; i < providerNodes.length; i++) {
-    for (let j = i + 1; j < providerNodes.length; j++) {
-      group.add(makeArc(providerNodes[i], providerNodes[j], 0xff8a3d, 0.4));
+      rack.add(led);
     }
-  }
-  toolNodes.forEach((t, idx) => {
-    const nearest = providerNodes[idx % providerNodes.length];
-    group.add(makeArc(nearest, t, 0x4cd3c2, 0.22));
-  });
 
-  // Outer point field for depth
-  const starGeo = new THREE.BufferGeometry();
-  const starCount = 140;
-  const starPos = new Float32Array(starCount * 3);
+    rack.position.set(x, -0.2, 0);
+    cloudGroup.add(rack);
+    racks.push(rack);
+
+    return rack;
+  }
+
+  createServerRack(-2.5, 0xff9900); // AWS
+  createServerRack(0, 0x00a4ef);    // Azure
+  createServerRack(2.5, 0x34a853);  // GCP
+
+  /* ----- Network connections ----- */
+
+  const connections = [];
+  const packets = [];
+
+  const rackPositions = [
+    new THREE.Vector3(-2.5, 0.5, 0),
+    new THREE.Vector3(0, 0.5, 0),
+    new THREE.Vector3(2.5, 0.5, 0)
+  ];
+
+  function addConnection(start, end, color) {
+    const middle = start.clone()
+      .add(end)
+      .multiplyScalar(0.5);
+
+    middle.y += 1.2;
+
+    const curve = new THREE.QuadraticBezierCurve3(
+      start,
+      middle,
+      end
+    );
+
+    const geometry = new THREE.BufferGeometry()
+      .setFromPoints(curve.getPoints(60));
+
+    const material = new THREE.LineBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.75
+    });
+
+    const line = new THREE.Line(geometry, material);
+    cloudGroup.add(line);
+
+    connections.push(curve);
+
+    const packet = new THREE.Mesh(
+      new THREE.SphereGeometry(0.07, 12, 12),
+      new THREE.MeshBasicMaterial({ color: color })
+    );
+
+    cloudGroup.add(packet);
+
+    packets.push({
+      mesh: packet,
+      curve: curve,
+      offset: Math.random()
+    });
+  }
+
+  addConnection(
+    rackPositions[0],
+    rackPositions[1],
+    0xff9900
+  );
+
+  addConnection(
+    rackPositions[1],
+    rackPositions[2],
+    0x00a4ef
+  );
+
+  addConnection(
+    rackPositions[0],
+    rackPositions[2],
+    0x4cd3c2
+  );
+
+  /* ----- Background stars ----- */
+
+  const starCount = 180;
+  const starPositions = new Float32Array(starCount * 3);
+
   for (let i = 0; i < starCount; i++) {
-    const r = 4.2 + Math.random() * 1.6;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
-    starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    starPos[i * 3 + 2] = r * Math.cos(phi);
+    starPositions[i * 3] = (Math.random() - 0.5) * 14;
+    starPositions[i * 3 + 1] = (Math.random() - 0.5) * 9;
+    starPositions[i * 3 + 2] = (Math.random() - 0.5) * 8;
   }
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  const starMat = new THREE.PointsMaterial({ color: 0x8b98ac, size: 0.02, transparent: true, opacity: 0.5 });
-  scene.add(new THREE.Points(starGeo, starMat));
 
-  let mouseX = 0, mouseY = 0;
-  mount.addEventListener('mousemove', (e) => {
-    const b = mount.getBoundingClientRect();
-    mouseX = ((e.clientX - b.left) / b.width - 0.5) * 2;
-    mouseY = ((e.clientY - b.top) / b.height - 0.5) * 2;
+  const starGeometry = new THREE.BufferGeometry();
+  starGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(starPositions, 3)
+  );
+
+  const stars = new THREE.Points(
+    starGeometry,
+    new THREE.PointsMaterial({
+      color: 0x8bdaef,
+      size: 0.035,
+      transparent: true,
+      opacity: 0.7
+    })
+  );
+
+  scene.add(stars);
+
+  /* ----- Mouse movement ----- */
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  mount.addEventListener('mousemove', event => {
+    const rect = mount.getBoundingClientRect();
+
+    mouseX = (
+      (event.clientX - rect.left) / rect.width - 0.5
+    ) * 2;
+
+    mouseY = (
+      (event.clientY - rect.top) / rect.height - 0.5
+    ) * 2;
   });
+
+  /* ----- Animation loop ----- */
 
   const clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
+
+    const time = clock.getElapsedTime();
 
     if (!reduceMotion) {
-      group.rotation.y = t * 0.18 + mouseX * 0.4;
-      group.rotation.x = mouseY * 0.25;
-      rings.forEach((ring, i) => {
-        ring.rotation.z += 0.0016 * (i % 2 === 0 ? 1 : -1);
+      cloudGroup.rotation.y =
+        Math.sin(time * 0.2) * 0.12 + mouseX * 0.18;
+
+      cloudGroup.rotation.x = mouseY * 0.1;
+
+      core.rotation.x += 0.006;
+      core.rotation.y += 0.009;
+
+      core.position.y =
+        0.3 + Math.sin(time * 1.5) * 0.12;
+
+      racks.forEach((rack, index) => {
+        rack.rotation.y =
+          Math.sin(time * 0.5 + index) * 0.08;
       });
     }
 
+    packets.forEach(packet => {
+      const progress = reduceMotion
+        ? packet.offset
+        : (time * 0.18 + packet.offset) % 1;
+
+      packet.mesh.position.copy(
+        packet.curve.getPoint(progress)
+      );
+    });
+
     renderer.render(scene, camera);
   }
+
   animate();
 
+  /* ----- Responsive resize ----- */
+
   window.addEventListener('resize', () => {
-    const w = mount.clientWidth;
-    const h = mount.clientHeight;
+    const w = Math.max(mount.clientWidth, 1);
+    const h = Math.max(mount.clientHeight, 1);
+
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+
     renderer.setSize(w, h);
   });
-}
+
+} // End of initHeroScene
